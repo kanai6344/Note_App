@@ -84,52 +84,54 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function openNote(noteId) {
-        const note = notes.find(n => n.id === noteId);
-        if (note) {
-            currentNoteId = noteId;
-            quill.root.innerHTML = note.content;
-            renderNotesList(searchInput.value);
-        }
-    }
-
-    function createNewNote() {
-        currentNoteId = Date.now().toString();
-        quill.root.innerHTML = '';
+   function openNote(noteId) {
+    const note = notes.find(n => n.id === noteId);
+    if (note) {
+        currentNoteId = noteId;
+        document.getElementById('note-title-input').value = note.title;
+        quill.root.innerHTML = note.content;
         renderNotesList(searchInput.value);
     }
+}
 
-    function saveCurrentNote() {
-        if (!currentNoteId) return;
-        
-        const content = quill.root.innerHTML;
-        const text = quill.getText().trim();
-        const title = text.split('\n')[0] || 'Untitled Note';
-        
-        const existingNoteIndex = notes.findIndex(n => n.id === currentNoteId);
-        
-        if (existingNoteIndex >= 0) {
-            // Update existing note
-            notes[existingNoteIndex] = {
-                id: currentNoteId,
-                title,
-                content,
-                updatedAt: new Date().toISOString()
-            };
-        } else {
-            // Add new note
-            notes.unshift({
-                id: currentNoteId,
-                title,
-                content,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            });
-        }
-        
-        saveNotes();
-        renderNotesList(searchInput.value);
+function createNewNote() {
+    currentNoteId = Date.now().toString();
+    document.getElementById('note-title-input').value = 'Untitled Note';
+    quill.root.innerHTML = '';
+    renderNotesList(searchInput.value);
+}
+
+function saveCurrentNote() {
+    if (!currentNoteId) return;
+    
+    const titleInput = document.getElementById('note-title-input');
+    const title = titleInput.value.trim() || 'Untitled Note';
+    const content = quill.root.innerHTML;
+    
+    const existingNoteIndex = notes.findIndex(n => n.id === currentNoteId);
+    
+    if (existingNoteIndex >= 0) {
+        // Update existing note
+        notes[existingNoteIndex] = {
+            id: currentNoteId,
+            title,
+            content,
+            updatedAt: new Date().toISOString()
+        };
+    } else {
+        // Add new note
+        notes.unshift({
+            id: currentNoteId,
+            title,
+            content,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        });
     }
+    
+    saveNotes();
+    renderNotesList(searchInput.value);
+}
 
     function deleteCurrentNote() {
         if (!currentNoteId) return;
@@ -147,6 +149,10 @@ document.addEventListener('DOMContentLoaded', function() {
         newNoteBtn.addEventListener('click', createNewNote);
         saveNoteBtn.addEventListener('click', saveCurrentNote);
         deleteNoteBtn.addEventListener('click', deleteCurrentNote);
+
+        const titleInput = document.getElementById('note-title-input');
+        titleInput.addEventListener('change', saveCurrentNote);
+        titleInput.addEventListener('blur', saveCurrentNote);
         
         searchInput.addEventListener('input', (e) => {
             renderNotesList(e.target.value);
@@ -168,6 +174,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if ((e.ctrlKey || e.metaKey) && e.key === 's') {
                 e.preventDefault();
                 saveCurrentNote();
+            }
+            
+            if ((e.ctrlKey || e.metaKey) && e.key === 't') {
+            e.preventDefault();
+            titleInput.focus();
+            titleInput.select();
             }
             
             if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
