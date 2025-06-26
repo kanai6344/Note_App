@@ -64,13 +64,6 @@ All notes are stored in the browser's `localStorage`, meaning:
 - No data is sent to any server - everything stays on your device
 
 
-## Customization
-
-You can easily customize the app by modifying:
-
-1. `styles.css` - Change colors, layout, and appearance
-2. `app.js` - Modify note handling logic or add features
-3. `index.html` - Adjust the HTML structure
 
 ## Known Limitations
 
