@@ -71,13 +71,4 @@ All notes are stored in the browser's `localStorage`, meaning:
 - No cloud sync or backup
 - Limited to browser storage capacity (~5MB typically)
 
-## Future Enhancements
 
-Planned future features:
-
-- Markdown support
-- Note categories/tags
-- Export/import functionality
-- Dark mode
-- IndexedDB for larger storage
-- Note sharing options
