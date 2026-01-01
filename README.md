@@ -19,7 +19,6 @@ You can view a live version of this tool at [(https://kanai6344.github.io/Note_A
 - **Note Management**:
   - Create, edit, and delete notes
   - Rename notes with custom titles
-  - Automatic saving (2-second debounce)
   - Manual save option
   - Note preview in sidebar
   - Search functionality
